@@ -9,7 +9,9 @@
 * `npm run test:watch` - run the tests in watch mode
 
 
-## Tasks
+## Tasks - Overview
+
+In the interview we will ask you to walk through your solution for one of the tasks mentioned below. We can provide a MacBook with Atom or VS Code to work through in front of us or feel free to bring your solution in using your own dev environment.
 
 ### Part 1: Staying out of React
 
