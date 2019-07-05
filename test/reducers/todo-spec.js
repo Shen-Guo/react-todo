@@ -32,6 +32,7 @@ describe("todos reducer", () => {
         completed: false
       });
     });
+
     it("should pick the next available id", () => {
       const state = applyActionsFrom(
         [
@@ -48,6 +49,16 @@ describe("todos reducer", () => {
         completed: false
       });
     })
+
+    it("should get rid of the space at start and end", () => {
+      const state = applyActionsFrom([], actions.addTodo("    Buy some milk    "));
+      assert.lengthOf(state, 1);
+      assert.deepEqual(state[0], {
+        id: 1,
+        title: "Buy some milk",
+        completed: false
+      });
+    }); 
   });
 
   describe("toggleTodo", () => {
@@ -109,6 +120,18 @@ describe("todos reducer", () => {
   });
 
   describe("clearCompleted", () => {
-    it("should have tests!");
+    // it("should have tests!");
+    const initial = [
+      {id: 1, title: "Item A", completed: false},
+      {id: 3, title: "Item B", completed: true},
+      {id: 7, title: "Item C", completed: false},
+      {id: 10, title: "Item D", completed: true},
+    ];
+    it("removes todo items that is completed", () => {
+      const state = applyActionsFrom(initial, actions.clearCompleted());
+      assert.lengthOf(state, 2);
+      assert.equal(state[0].id, 1);
+      assert.equal(state[1].id, 7);
+    });
   });
 });

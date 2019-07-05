@@ -61,15 +61,67 @@ describe("<Footer />", () => {
     it("should select 'All' when clicked", () => {
       const selectFilter = sinon.spy();
       const tree = shallow(
+        <Footer total={5} filter="" selectFilter={selectFilter} />
+      );
+      tree.find({children: "All"}).simulate("click", mouseEvent());
+      assert.equal(selectFilter.withArgs("all").callCount, 1); 
+    });
+    it("should not fire 'selectFilter' if 'All' is already selected when clicked", () => {
+      const selectFilter = sinon.spy();
+      const tree = shallow(
         <Footer total={5} filter="all" selectFilter={selectFilter} />
       );
       tree.find({children: "All"}).simulate("click", mouseEvent());
-      assert.equal(selectFilter.withArgs("all").callCount, 1);
+      assert.equal(selectFilter.withArgs("all").callCount, 0); 
     });
 
-    it("should have more scenarios covered");
+    // it("should have more scenarios covered");
+    it("should highlight 'Active' when selected", () => {
+      const tree = shallow(<Footer total={5} filter="active" />);
+      const selected = tree.find(".qa-filters").find(".selected");
+      assert.equal(selected.text(), "Active");
+    });
+    it("should select 'Active' when clicked", () => {
+      const selectFilter = sinon.spy();
+      const tree = shallow(
+        <Footer total={5} filter="" selectFilter={selectFilter} />
+      );
+      tree.find({children: "Active"}).simulate("click", mouseEvent());
+      assert.equal(selectFilter.withArgs("active").callCount, 1);
+    });
+    it("should not fire 'selectFilter' if 'Active' is already selected when clicked", () => {
+      const selectFilter = sinon.spy();
+      const tree = shallow(
+        <Footer total={5} filter="active" selectFilter={selectFilter} />
+      );
+      tree.find({children: "Active"}).simulate("click", mouseEvent());
+      assert.equal(selectFilter.withArgs("active").callCount, 0);
+    });
+  
+    it("should highlight 'Completed' when selected", () => {
+      const tree = shallow(<Footer total={5} filter="completed" />);
+      const selected = tree.find(".qa-filters").find(".selected");
+      assert.equal(selected.text(), "Completed");
+    });
+    it("should select 'Completed' when clicked", () => {
+      const selectFilter = sinon.spy();
+      const tree = shallow(
+        <Footer total={5} filter="" selectFilter={selectFilter} />
+      );
+      tree.find({children: "Completed"}).simulate("click", mouseEvent());
+      assert.equal(selectFilter.withArgs("completed").callCount, 1);
+    });
+    it("should not fire 'selectFilter' if 'Completed' is already selected when clicked", () => {
+      const selectFilter = sinon.spy();
+      const tree = shallow(
+        <Footer total={5} filter="completed" selectFilter={selectFilter} />
+      );
+      tree.find({children: "Completed"}).simulate("click", mouseEvent());
+      assert.equal(selectFilter.withArgs("completed").callCount, 0);
+    });
   });
 });
+
 
 // If I was using this a lot, I'd make it more realistic
 function mouseEvent() {

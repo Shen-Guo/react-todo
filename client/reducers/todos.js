@@ -33,7 +33,8 @@ export default function reducer(state = initial, action) {
     case "ADD_TODO": {
       return append(state, {
         id: nextId(state),
-        title: action.title,
+        title: action.title.trim(),
+         // move .trim() from TodoItem.js and AddTodo.js
         completed: false
       })
     }
@@ -55,8 +56,11 @@ export default function reducer(state = initial, action) {
     }
     case "CLEAR_COMPLETED": {
       // eslint-disable-next-line
-      alert("Not implemented - your turn");
+      // remove item that is 
+      return state.filter((todo) => todo.completed == false);
     }
+    
+    
   }
   return state;
 }

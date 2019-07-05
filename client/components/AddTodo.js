@@ -13,7 +13,7 @@ export default class AddTodo extends React.Component {
 
   onSubmit(event) {
     event.preventDefault();
-    var title = this.state.value.trim();
+    var title = this.state.value;
     if (title) {
       this.setState({value: ''});
       this.props.addTodo(title);

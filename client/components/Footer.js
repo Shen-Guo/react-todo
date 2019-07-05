@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const filters = [
   {name: "all", label: "All"},
   {name: "active", label: "Active"},
@@ -43,13 +44,14 @@ export default class Footer extends React.Component {
               <a
                 className={filter === name && "selected"}
                 href="#"
-                onClick={(e) => {e.preventDefault(); selectFilter(name);}}
+                onClick={(e) => {e.preventDefault(); filter !== name ? selectFilter(name) : null;}}
               >
                 {label}
               </a>
             </li>
           ))}
         </ul>
+        
         {completed > 0 &&
           <button
             className="clear-completed qa-clear-completed"

@@ -67,6 +67,8 @@ describe("<TodoItem />", () => {
     assert.isFalse(tree.find("input.edit").isEmpty(), "input box");
   });
 
+  
+
   context("in editing mode", () => {
     let tree, edit;
     beforeEach(() => {
@@ -90,6 +92,17 @@ describe("<TodoItem />", () => {
 
       assert.equal(edit.withArgs("Buy Semi-skimmed Milk").callCount, 1);
     });
+
+    it("should escape edit and rollback changed title when click escape", () => {
+      const event = textChangeEvent("Buy Semi-skimmed Milk");
+      tree.find("input.edit").simulate("change", event);
+      tree.find("input.edit").simulate("keydown", EscapeClickEvent(tree));
+
+      assert.isTrue(tree.find("input.edit").isEmpty());
+      assert.equal(edit.withArgs("Buy Semi-skimmed Milk").callCount, 0);
+    });
+
+    
   });
 });
 
@@ -107,3 +120,11 @@ function makeEvent() {
     preventDefault: () => {}
   };
 }
+function EscapeClickEvent(tree) {
+  const event = makeEvent();
+  event.target={
+    blur:function(){ tree.find("input.edit").simulate("blur", makeEvent());}};
+  event.keyCode = 27;
+  return event;
+}
+

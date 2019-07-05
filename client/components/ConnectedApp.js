@@ -19,7 +19,7 @@ export default connect(
     toggleTodo: actions.toggleTodo,
     editTodo: actions.editTodo,
     removeTodo: actions.removeTodo,
-
+    
     setAll: actions.setAll,
     clearCompleted: actions.clearCompleted,
 

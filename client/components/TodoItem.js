@@ -9,6 +9,7 @@ export default class TodoItem extends React.Component {
     remove: React.PropTypes.func.isRequired,
     toggle: React.PropTypes.func.isRequired,
     forceEditing: React.PropTypes.bool,
+    isEscape: React.PropTypes.bool
   };
   static defaultProps = {
     edit: noop,
@@ -18,11 +19,27 @@ export default class TodoItem extends React.Component {
 
   state = {value: this.props.todo.title, editing: false};
 
+  handleKeyDown(event){    
+    if(event.keyCode==27){
+      var target = event.target;
+      this.setState({ isEscape: true },function(){        
+       target.blur();
+      });
+    }
+
+  }
+
   save(event) {
     event.preventDefault();
-    var title = this.state.value.trim();
+    var title = this.state.value;
+    var isEscape = this.state.isEscape;
     if (title) {
-      this.props.edit(title);
+      if(isEscape) {
+          this.setState({ isEscape: false,value: this.props.todo.title});
+      }
+      else {
+          this.props.edit(title);
+      }
       this.setState({ editing: false });
     } else {
       this.props.remove();
@@ -54,12 +71,15 @@ export default class TodoItem extends React.Component {
         {editing &&
           <form action="" onSubmit={(e) => this.save(e)}>
             <input className="edit" autoFocus
+              ref="textInput"
               value={value}
               onBlur={(e) => this.save(e)}
               onChange={(e) => this.setState({value: e.target.value})}
+              onKeyDown={(e) => this.handleKeyDown(e)}
             />
           </form>}
       </li>
     );
   }
 }
+
